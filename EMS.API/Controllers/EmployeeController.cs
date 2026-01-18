@@ -16,8 +16,37 @@ namespace EMS.API.Controllers
             _context = context;
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto loginDto)
+        {
+            try
+            {
+                var employee = await _context.Employee.FirstOrDefaultAsync(e => e.Email == loginDto.Email && e.Password == loginDto.Password);
 
-      
+                if (employee == null)
+                    return Unauthorized("Invalid email or password");
+
+                return Ok(new {
+                Message = "Login successful",
+                Data=new
+                {
+                    employee.EmployeeId,
+                    employee.Name,
+                    employee.Email,
+                    employee.DesignationId,
+                    employee.Role
+                }  
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+   
+
+
+
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
