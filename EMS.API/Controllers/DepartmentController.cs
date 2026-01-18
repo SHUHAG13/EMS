@@ -16,26 +16,42 @@ namespace EMS.API.Controllers
             _context = context;
         }
 
-        // 🔹 GET: api/Department
+       
         [HttpGet]
         public async Task<IActionResult> GetDepartments()
         {
-            var departments = await _context.Department.ToListAsync();
-            return Ok(departments);
+            try
+            {
+                var departments = await _context.Department.ToListAsync();
+                return Ok(departments);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+           
         }
 
 
-        // 🔹 POST: api/Department
+       
         [HttpPost]
         public async Task<IActionResult> CreateDepartment([FromBody] Department department)
         {
-            _context.Department.Add(department);
-            await _context.SaveChangesAsync();
-            return Ok("Department added successfully");
+            try
+            {
+                _context.Department.Add(department);
+                await _context.SaveChangesAsync();
+                return Ok("Department added successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
         }
 
 
-        // 🔹 PUT: api/Department/5
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDepartment([FromBody] Department department)
         { 
@@ -44,17 +60,25 @@ namespace EMS.API.Controllers
 
             if (existingDepartment == null)
                 return NotFound("Department not found");
+            try 
+            {
+                existingDepartment.DepartmentName = department.DepartmentName;
+                existingDepartment.IsActive = department.IsActive;
+                await _context.SaveChangesAsync();
+                return Ok("Department updated successfully!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
 
-            existingDepartment.DepartmentName = department.DepartmentName;
-            existingDepartment.IsActive = department.IsActive;
 
-            await _context.SaveChangesAsync();
 
-            return Ok("Department updated successfully!");
+
         }
 
 
-        // 🔹 DELETE: api/Department/5
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDepartment(int id)
         {
@@ -63,9 +87,17 @@ namespace EMS.API.Controllers
             if (department == null)
                 return NotFound("Department not found");
 
-            _context.Department.Remove(department);
-            await _context.SaveChangesAsync();
-            return Ok("Department deleted successfully");
+            try
+            {
+                _context.Department.Remove(department);
+                await _context.SaveChangesAsync();
+                return Ok("Department deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
         }
 
 

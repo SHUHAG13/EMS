@@ -15,7 +15,7 @@ namespace EMS.API.Controllers
             _context = context;
         }
 
-        //  GET: api/Designation
+       
         [HttpGet]
         public async Task<IActionResult> GetDesignations()
         {
