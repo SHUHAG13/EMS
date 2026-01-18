@@ -33,7 +33,7 @@ namespace EMS.API.Controllers
 
         }
 
-        //  GET: api/Designation/5
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDesignationById(int id)
         {
@@ -87,7 +87,6 @@ namespace EMS.API.Controllers
 
                 existingDesignation.DesignationName = designation.DesignationName;
                 existingDesignation.DepartmentId = designation.DepartmentId;
-
                 await _context.SaveChangesAsync();
 
                 return Ok(existingDesignation);
@@ -98,7 +97,7 @@ namespace EMS.API.Controllers
             }
         }
 
-        //  DELETE: api/Designation/5
+       
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDesignation(int id)
         {

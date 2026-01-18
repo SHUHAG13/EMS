@@ -17,9 +17,7 @@ namespace EMS.API.Controllers
         }
 
 
-        // =====================================================
-        // 🔹 NORMAL GET: api/Employee
-        // =====================================================
+      
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
@@ -34,18 +32,11 @@ namespace EMS.API.Controllers
             }
         }
 
-        // =====================================================
-        // 🔹 ADVANCED GET: Filter + Sort + Pagination
-        // api/Employee/search?name=a&city=dhaka&sortBy=name&sortDir=asc&page=1&pageSize=10
-        // =====================================================
+
+
+
         [HttpGet("search")]
-        public async Task<IActionResult> SearchEmployees(
-            string? name,
-            string? city,
-            string? sortBy = "name",
-            string? sortDir = "asc",
-            int page = 1,
-            int pageSize = 10)
+        public async Task<IActionResult> SearchEmployees(string? name,string? city, string? sortBy = "name",string? sortDir = "asc",int page = 1,int pageSize = 10)
         {
             try
             {
@@ -53,29 +44,41 @@ namespace EMS.API.Controllers
 
                 // 🔍 Filtering
                 if (!string.IsNullOrEmpty(name))
+                {
                     query = query.Where(e => e.Name.Contains(name));
+                }
 
                 if (!string.IsNullOrEmpty(city))
-                    query = query.Where(e => e.City.Contains(city));
-
-                // 🔃 Sorting
-                query = sortBy.ToLower() switch
                 {
-                    "city" => sortDir == "desc"
-                        ? query.OrderByDescending(e => e.City)
-                        : query.OrderBy(e => e.City),
+                    query = query.Where(e => e.City.Contains(city));
+                }
 
-                    "createddate" => sortDir == "desc"
-                        ? query.OrderByDescending(e => e.CreatedDate)
-                        : query.OrderBy(e => e.CreatedDate),
-
-                    _ => sortDir == "desc"
-                        ? query.OrderByDescending(e => e.Name)
-                        : query.OrderBy(e => e.Name)
-                };
+                // 🔃 Sorting (if-else version)
+                if (sortBy.ToLower() == "city")
+                {
+                    if (sortDir.ToLower() == "desc")
+                        query = query.OrderByDescending(e => e.City);
+                    else
+                        query = query.OrderBy(e => e.City);
+                }
+                else if (sortBy.ToLower() == "createddate")
+                {
+                    if (sortDir.ToLower() == "desc")
+                        query = query.OrderByDescending(e => e.CreatedDate);
+                    else
+                        query = query.OrderBy(e => e.CreatedDate);
+                }
+                else // default: name
+                {
+                    if (sortDir.ToLower() == "desc")
+                        query = query.OrderByDescending(e => e.Name);
+                    else
+                        query = query.OrderBy(e => e.Name);
+                }
 
                 // 📄 Pagination
                 var totalRecords = await query.CountAsync();
+
                 var employees = await query
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
@@ -95,9 +98,7 @@ namespace EMS.API.Controllers
             }
         }
 
-        // =====================================================
-        // 🔹 GET BY ID
-        // =====================================================
+       
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployeeById(int id)
         {
@@ -116,9 +117,7 @@ namespace EMS.API.Controllers
             }
         }
 
-        // =====================================================
-        // 🔹 CREATE
-        // =====================================================
+       
         [HttpPost]
         public async Task<IActionResult> CreateEmployee([FromBody]Employee employee)
         {
@@ -146,9 +145,7 @@ namespace EMS.API.Controllers
             }
         }
 
-        // =====================================================
-        // 🔹 UPDATE
-        // =====================================================
+      
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEmployee(int id,[FromBody] Employee employee)
         {
@@ -190,9 +187,7 @@ namespace EMS.API.Controllers
             }
         }
 
-        // =====================================================
-        // 🔹 DELETE
-        // =====================================================
+      
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
