@@ -53,7 +53,7 @@ namespace EMS.API.Controllers
             }
         }
 
-        //  POST: api/Designation
+       
         [HttpPost]
         public async Task<IActionResult> CreateDesignation([FromBody]Designation designation)
         {
@@ -71,7 +71,7 @@ namespace EMS.API.Controllers
             }
         }
 
-        //  PUT: api/Designation/5
+       
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDesignation(int id, [FromBody]Designation designation)
         {
