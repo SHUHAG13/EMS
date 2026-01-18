@@ -15,7 +15,7 @@ namespace EMS.API.Controllers
             _context = context;
         }
 
-        // 🔹 GET: api/Designation
+        //  GET: api/Designation
         [HttpGet]
         public async Task<IActionResult> GetDesignations()
         {
@@ -33,7 +33,7 @@ namespace EMS.API.Controllers
 
         }
 
-        // 🔹 GET: api/Designation/5
+        //  GET: api/Designation/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDesignationById(int id)
         {
@@ -53,7 +53,7 @@ namespace EMS.API.Controllers
             }
         }
 
-        // 🔹 POST: api/Designation
+        //  POST: api/Designation
         [HttpPost]
         public async Task<IActionResult> CreateDesignation([FromBody]Designation designation)
         {
@@ -71,7 +71,7 @@ namespace EMS.API.Controllers
             }
         }
 
-        // 🔹 PUT: api/Designation/5
+        //  PUT: api/Designation/5
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDesignation(int id, [FromBody]Designation designation)
         {
@@ -98,7 +98,7 @@ namespace EMS.API.Controllers
             }
         }
 
-        // 🔹 DELETE: api/Designation/5
+        //  DELETE: api/Designation/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDesignation(int id)
         {
